@@ -1,0 +1,305 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+#kapp{font-family:var(--font-sans);background:#110d04;border-radius:12px;padding:0 0 24px;display:flex;flex-direction:column;align-items:center;color:#f5e6c8;overflow:hidden;}
+#hero{width:100%;background:#110d04;display:flex;flex-direction:column;align-items:center;padding:20px 16px 14px;border-bottom:0.5px solid #3a2a10;}
+#stitle{font-size:12px;letter-spacing:2.5px;color:#c8922a;text-transform:uppercase;font-weight:500;margin-top:10px;text-align:center;}
+#ssub{font-size:11px;color:#6a5030;text-align:center;letter-spacing:1px;margin-top:2px;}
+#ld{width:100%;max-width:640px;display:flex;flex-direction:column;align-items:center;padding:12px 16px 0;gap:0;}
+.gl{font-size:13px;color:#af8e63;text-align:center;min-height:18px;line-height:1.4;width:100%;padding:1px 8px;}
+.glb{font-size:12px;color:#2e1f0a;text-align:center;min-height:15px;line-height:1.3;width:100%;padding:1px 8px;}
+#cb{width:100%;background:#1e1206;border-radius:10px;border:0.5px solid #4a3010;padding:16px 18px 12px;margin:8px 0;}
+#cen{text-align:center;color:#f0ddb0;line-height:1.5;margin-bottom:7px;word-break:break-word;font-weight:500;}
+.hi{color:#f5c542;}.di{color:#e8d090;}
+
+#cbn{text-align:center;color:#c8922a;line-height:1.6;word-break:break-word;}
+#controls{display:flex;align-items:center;gap:12px;margin-top:14px;flex-wrap:wrap;justify-content:center;}
+#pb{width:44px;height:44px;border-radius:50%;border:none;cursor:pointer;background:#c8922a;color:#110d04;font-size:18px;display:flex;align-items:center;justify-content:center;}
+#pb:hover{background:#e0aa40;}
+#rb{background:transparent;border:0.5px solid #4a3010;border-radius:8px;padding:6px 14px;color:#c8922a;cursor:pointer;font-size:13px;font-family:var(--font-sans);}
+#rb:hover{background:#1e1206;}
+.cr{display:flex;align-items:center;gap:8px;font-size:12px;color:#5a4020;}
+.cr input[type=range]{width:72px;}
+.cv{font-size:12px;color:#c8922a;min-width:32px;}
+#pw{width:100%;max-width:640px;padding:12px 16px 0;}
+#pgb{width:100%;height:2px;background:#1e1206;border-radius:1px;overflow:hidden;}
+#pgf{height:100%;background:#c8922a;border-radius:1px;width:0%;transition:width 0.1s linear;}
+#lc{font-size:11px;color:#3a2810;margin-top:5px;text-align:center;}
+@keyframes glow {
+0% {
+box-shadow:0 0 12px rgba(200,146,42,.25);
+}
+
+50% {
+box-shadow:0 0 30px rgba(200,146,42,.7);
+}
+
+100% {
+box-shadow:0 0 12px rgba(200,146,42,.25);
+}
+}
+
+#cb{
+background:
+linear-gradient(
+180deg,
+#2a1907 0%,
+#1a1005 100%
+);
+
+border:1px solid #5a3a12;
+
+box-shadow:
+0 0 25px rgba(200,146,42,.15);
+}
+
+#cen,
+#cbn{
+transition:
+opacity .35s ease,
+transform .35s ease;
+}
+
+.fade-out{
+opacity:0;
+transform:translateY(8px);
+}
+
+.fade-in{
+opacity:1;
+transform:translateY(0);
+}
+
+.gl{
+opacity:.45;
+transition:.3s ease;
+}
+
+</style>
+
+<div id="kapp">
+<div id="hero">
+<img src="Mile.png"
+     style="
+       width:120px;
+       height:120px;
+       border-radius:50%;
+       object-fit:cover;
+       box-shadow:0 0 20px rgba(200,146,42,.5);
+       border:3px solid #c8922a;
+     ">
+<div id="stitle">Mi Le Jiu Ku Zhen Jing</div>
+<div id="ssub">彌勒救苦真經 · মি লে জিউ কু ঝেন জিং</div>
+</div>
+
+<div id="ld">
+  <div class="gl" id="pen"></div>
+  <div class="glb" id="pbn"></div>
+  <div id="cb">
+    <div id="cen" style="font-size:20px;">Press play to begin</div>
+    
+    <div id="cbn" style="font-size:17px;">— চালু করুন —</div>
+  </div>
+  <div class="gl" id="nen"></div>
+  <div class="glb" id="nbn"></div>
+</div>
+
+<div id="controls">
+  <button id="rb">↩ Restart</button>
+  <button id="pb" aria-label="Play/Pause">▶</button>
+  <div class="cr">
+    <span>Speed</span>
+    <input type="range" id="spd" min="0.5" max="2" step="0.1" value="1">
+    <span class="cv" id="sv">1.0×</span>
+  </div>
+  <div class="cr">
+    <span>Text</span>
+    <input type="range" id="tsz" min="13" max="30" step="1" value="20">
+    <span class="cv" id="tv">20px</span>
+  </div>
+</div>
+
+<div id="pw">
+  <div id="pgb"><div id="pgf"></div></div>
+  <div id="lc">Line 0 / 0</div>
+</div>
+</div>
+
+<script>
+const lines=[
+["(Respectfully Chanting Mi Le Jiu Ku Zhen Jing)"],
+["FO SHUO MI LE JIU KU JING","ফো শুও মি লে জিউ কু জিং"],
+["MI LE SHIA SHI BU FEI CHING","মি লে শিয়া শি বু ফেই চিং"],
+["LING BAO CHI LU LING SHAN DI","লিং বাও চি লু লিং শান দি"],
+["NIE HUA YING ZHENG KAO SAN SHEN","নিয়ে হুয়া ইং ঝেং কাও সান শেন"],
+["LUO ZAI ZHONG YUAN SAN SHING TI","লুও জাই ঝোং উয়ান সান শিং তি"],
+["DA ZHENG SI CHUAN WANG TAO SHIN","দা ঝেং সি চুয়ান ওয়াং তাও শিন"],
+["TIAN ZHEN SHOU YUAN GUA SHENG HAO","তিয়ান ঝেন শৌ ইউয়ান গুয়া শেং হাও"],
+["DENG DAI SHI ZHI DIAN SHENG BING","দেং দাই শি ঝি দিয়ান শেং বিং"],
+["YUN LEI ZHENG KAI WU JI TU","ইউন লেই ঝেং কাই উ জি তু"],
+["TIAN SHIA SHENG GUI BU AN NING","তিয়ান শিয়া শেং গুই বু আন নিং"],
+["CHIN ZAI REN TIAN ZHONG HUA MU","চিন জাই রেন তিয়ান ঝোং হুয়া মু"],
+["JIU LIAN SHENG JIAO GUI SHANG SHENG","জিউ লিয়ান শেং জিয়াও গুই শাং শেং"],
+["TIAN HUA LAO MU CHUI YU SIAN","তিয়ান হুয়া লাও মু ছুই ইউ সিয়ান"],
+["SHOU YUAN SIAN HUA ZAI GU DONG","শৌ ইউয়ান সিয়ান হুয়া জাই গু দোং"],
+["NAN BEI LIANG JI LIAN ZONG SHE","নান বেই লিয়াং জি লিয়ান জোং শে"],
+["HUN YUAN GU CHA ZAI ZHONG YANG","হুন ইউয়ান গু চা জাই ঝোং ইয়াং"],
+["LAO MU JIANG SHIA TONG TIAN QIAO","লাও মু জিয়াং শিয়া তোং তিয়ান চিয়াও"],
+["WU YING SAN CHIAN DUI HE TONG","উ ইং সান চিয়ান দুই হে তোং"],
+["YING ER YAO SHIANG GUI JIA QU","ইং এর ইয়াও শিয়াং গুই জিয়া ছু"],
+["CHI NIAN DANG LAI MI LE JING","ছি নিয়ান দাং লাই মি লে জিং"],
+["YONG SHIN CHI NIAN FO LAI JIU","ইয়োং শিন ছি নিয়ান ফো লাই জিউ"],
+["DUO DUO JING LIAN CHI CHAO SHENG","দুও দুও জিং লিয়ান ছি চাও শেং"],
+["SHI DE SI LAI BAI YANG ZI","শি দে সি লাই বাই ইয়াং জি"],
+["SHIANG ER DIAN TIE HUA CHENG JIN","শিয়াং এর দিয়ান তিয়ে হুয়া ছেং জিন"],
+["MEI RI ZHI SHIN CHANG CHI NIAN","মেই রি ঝি শিন ছাং ছি নিয়ান"],
+["SAN ZA BA NAN BU LAI CHIN","সান জাই বা নান বু লাই চিন"],
+["YAO XIANG CHENG FO CHIN LI BAI","ইয়াও শিয়াং ছেং ফো চিন লি বাই"],
+["CHANG CHI CHONG MIN ZI HUI XIN","ছাং ছি ছোং মিন জি হুই শিন"],
+["SHU TING SHEA REN HU SHUO HUA","শু টিং শিয়া রেন হু শুও হুয়া"],
+["LAO SHUAI YI MA NIAN WU SHENG","লাও শুয়াই ই মা নিয়ান উ শেং"],
+["LAO MU JIANG SHEA JIAN TIAN ZOU","লাও মু জিয়াং শিয়া জিয়ান তিয়ান জৌ"],
+["YONG XIN CHI NIAN YOU SHENG TONG","ইয়োং শিন ছি নিয়ান ইয়ৌ শেং তোং"],
+["MAN TIAN SHING TOU TOU SHIA SHI","মান তিয়ান শিং তোউ তোউ শিয়া শি"],
+["WU FANG LIE SHIAN SHIA TIAN GONG","উ ফাং লিয়ে শিয়ান শিয়া তিয়ান গোং"],
+["KA FANG CHENG HUANG LAI DUI HAO","কা ফাং ছেং হুয়াং লাই দুই হাও"],
+["BAO SHI LING TONG CHA DE QING","বাও শি লিং তোং ছা দে ছিং"],
+["SAN GUAN CI BEI DA DI ZHU","সান গুয়ান সি বেই দা দি ঝু"],
+["SHE ZUI SAN CAO JIU ZHONG SHENG","শে জুই সান ছাও জিউ ঝোং শেং"],
+["JIU KU TIAN ZUN LAI JIU SHI","জিউ কু তিয়ান জুন লাই জিউ শি"],
+["CHIN TIAN WEN BU JIE DI SHENG","চিন তিয়ান ওয়েন বু জিয়ে দি শেং"],
+["BA DA JING GANG LAI HU FA","বা দা জিং গাং লাই হু ফা"],
+["SI WEI PU SA JIU ZHONG SHENG","সি ওয়েই পু সা জিউ ঝোং শেং"],
+["JIN LING SAN SHI LEO YUAN JIANG","জিন লিং সান শি লিও ইউয়ান জিয়াং"],
+["WU BAI LING GUAN JIN SUI GEN","উ বাই লিং গুয়ান জিন সুই জেন"],
+["FU ZHU MI LE CHENG DA DAO","ফু ঝু মি লে ছেং দা দাও"],
+["BAO YOU SHIANG ER DE AN NING","বাও ইয়ৌ শিয়াং এর দে আন নিং"],
+["BEI FANG ZHEN WU WEI JIANG SHUAI","বেই ফাং ঝেন উ ওয়েই জিয়াং শুয়াই"],
+["CHING LIAN HONG FA SHIANG SHENG TONG","ছিং লিয়ান হোং ফা শিয়াং শেং তোং"],
+["ZHE QI ZAO CHI ZHE RI YUE","ঝে চি জাও ছি ঝে রি ইউয়ে"],
+["TOU DING SHEN LUO CHI BAO SHING","তোউ ডিং শেন লুও ছি বাও শিং"],
+["WEI ZHEN BEI FANG WEI SHUAI SHOU","ওয়েই ঝেন বেই ফাং ওয়েই শুয়াই শৌ"],
+["SU CHING ZHU ER GUA JIA BING","সু ছিং ঝু এর গুয়া জিয়া বিং"],
+["DA JIU YUAN REN CHIANG AR NI","দা জিউ ইউয়ান রেন চিয়ান আর নি"],
+["HUO GUANG LUO DI HUA WEI CHENG","হুও গুয়াং লুও দি হুয়া ওয়েই ছেং"],
+["CI HAI LONG WANG LAI ZHU DAO","সি হাই লোং ওয়াং লাই ঝু দাও"],
+["KA JIA SHIANG YUN CHU TENG KONG","কা জিয়া শিয়াং ইউন ছু তেং কোং"],
+["SHI FANG TIAN BING HU FO JIA","শি ফাং তিয়ান বিং হু ফো জিয়া"],
+["BAO YOU MI LE CHU CHENG GONG","বাও ইয়ৌ মি লে ছু ছেং গোং"],
+["HONG YANG LIAO DAO GUI JIA CHI","হোং ইয়াং লিয়াও দাও গুই জিয়া ছি"],
+["ZHUAN DAO SAN YANG MI LE ZUN","ঝুয়ান দাও সান ইয়াং মি লে জুন"],
+["WU HUANG CHI LING JI SHIA SHENG","উ হুয়াং ছি লিং জি শিয়া শেং"],
+["SHOU FU NAN YAN GUI ZHENG ZONG","শৌ ফু নান ইয়ান গুই ঝেং জোং"],
+["LAI WANG ZHAO SHIA ZHENG YAN ZHOU","লাই ওয়াং ঝাও শিয়া ঝেং ইয়ান ঝৌ"],
+["CHUAN SHIA DANG LAI DA ZANG JING","ছুয়ান শিয়া দাং লাই দা জাং জিং"],
+["YING ER CHA NU CHANG CHI NIAN","ইং এর ছা নু ছাং ছি নিয়ান"],
+["SHIA SHENG BU GAN LAI JING SHENG","শিয়া শেং বু গান লাই জিং শেং"],
+["CHI NIAN YI BIAN SHENG TONG DA","ছি নিয়ান ই বিয়ান শেং তোং দা"],
+["CHI NIAN LIANG BIAN TA CHAO SHENG","ছি নিয়ান লিয়াং বিয়ান তা ছাও শেং"],
+["CHI NIAN SAN BIAN SHENG GUI PA","ছি নিয়ান সান বিয়ান শেং গুই পা"],
+["WANG LIANG CIA MO HUA WEI CHENG","ওয়াং লিয়াং ছিয়া মো হুয়া ওয়েই ছেং"],
+["CU CHI JIE NEI SHIN LU JIN","ছু ছি জিয়ে নেই শিন লু জিন"],
+["NIAN CHI ZHENG YAN GUI FO LING","নিয়ান ছি ঝেং ইয়ান গুই ফো লিং"],
+["NAN WU TIAN YUAN TAI BAO","নান উ তিয়ান ইউয়ান তাই বাও"],
+["A MI TUO FO","আ মি তুও ফো"],
+["(May we seek the mercy of Universal Enlightening Guruji Ji Gong to transfer the merit of this Maitreya chant)"]
+];
+
+let cur=0,playing=false,af=null,spd=1,tsz=20;
+const pb=document.getElementById('pb');
+
+const cen=document.getElementById('cen');
+const cbn=document.getElementById('cbn');
+const pen=document.getElementById('pen');
+const pbn=document.getElementById('pbn');
+const nen=document.getElementById('nen');
+const nbn=document.getElementById('nbn');
+const pgf=document.getElementById('pgf');
+const lc=document.getElementById('lc');
+const spdSlider=document.getElementById('spd');
+const sv=document.getElementById('sv');
+const tszSlider=document.getElementById('tsz');
+const tv=document.getElementById('tv');
+function smoothRender(){
+
+  cen.classList.add("fade-out");
+  cbn.classList.add("fade-out");
+
+  setTimeout(()=>{
+
+    render();
+
+    cen.classList.remove("fade-out");
+    cbn.classList.remove("fade-out");
+
+    cen.classList.add("fade-in");
+    cbn.classList.add("fade-in");
+
+  },180);
+}
+function render(){
+  const[en,bn]=lines[cur];
+  cen.textContent=en;cen.style.fontSize=tsz+'px';
+  cbn.textContent=bn;cbn.style.fontSize=Math.max(13,tsz-3)+'px';
+  pen.textContent=cur>0?lines[cur-1][0]:'';
+  pbn.textContent=cur>0?lines[cur-1][1]:'';
+  nen.textContent=cur<lines.length-1?lines[cur+1][0]:'';
+  nbn.textContent=cur<lines.length-1?lines[cur+1][1]:'';
+  //bf.style.width='0%';
+  pgf.style.width=Math.round(cur/(lines.length-1)*100)+'%';
+  lc.textContent='Line '+(cur+1)+' / '+lines.length;
+}
+
+function dur(en){return Math.max(1200,en.length*105/spd);}
+
+function animBar(duration){
+  if(af)cancelAnimationFrame(af);
+  const t0=performance.now();
+  function step(now){
+    const pct=Math.min((now-t0)/duration*100,100);
+    
+    const txt = lines[cur][0];
+    const chars = Math.floor(txt.length * pct / 100);
+
+    cen.innerHTML =
+      '<span class="hi">' +
+     txt.substring(0, chars) +
+      '</span>' +
+      '<span class="di">' +
+      txt.substring(chars) +
+      '</span>';
+    if(pct<100){af=requestAnimationFrame(step);}
+    else if(playing){advance();}
+  }
+  af=requestAnimationFrame(step);
+}
+
+function advance(){
+  if(cur<lines.length-1){cur++;render();animBar(dur(lines[cur][0]));}
+  else{playing=false;pb.textContent='▶';}
+}
+
+function toggle(){
+  if(playing){playing=false;pb.textContent='▶';if(af)cancelAnimationFrame(af);}
+  else{
+    playing=true;pb.textContent='⏸';
+    if(cur>=lines.length-1){cur=0;render();}
+    animBar(dur(lines[cur][0]));
+  }
+}
+
+pb.addEventListener('click',toggle);
+document.getElementById('rb').addEventListener('click',()=>{
+  if(af)cancelAnimationFrame(af);
+  playing=false;pb.textContent='▶';cur=0;render();
+  cen.textContent='Press play to begin';cbn.textContent='— চালু করুন —';
+});
+spdSlider.addEventListener('input',()=>{spd=parseFloat(spdSlider.value);sv.textContent=spd.toFixed(1)+'×';});
+tszSlider.addEventListener('input',()=>{
+  tsz=parseInt(tszSlider.value);tv.textContent=tsz+'px';
+  cen.style.fontSize=tsz+'px';cbn.style.fontSize=Math.max(13,tsz-3)+'px';
+});
+
+render();
+cen.textContent='Press play to begin';cbn.textContent='— চালু করুন —';
+</script>
